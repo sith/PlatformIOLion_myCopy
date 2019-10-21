@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 group = "platformio"
 version = "0.1"
 
@@ -33,4 +35,8 @@ intellij {
   type = "CL"
   setPlugins("com.jetbrains.plugins.ini4idea:192.5728.26")
   downloadSources = true
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+  freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
 }

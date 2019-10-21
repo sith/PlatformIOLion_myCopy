@@ -1,10 +1,9 @@
-package platformio.project
+package platformio.project.ui
 
+import org.assertj.swing.data.TableCell
 import org.assertj.swing.edt.GuiActionRunner
 import org.assertj.swing.fixture.FrameFixture
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.nullValue
+import org.assertj.swing.timing.Timeout
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -12,9 +11,9 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import platformio.services.Board
+import platformio.project.ui.BoardCatalogDialog.BOARD_CATALOG_DIALOG_NAME
+import platformio.project.ui.NewPIOProjectSettingsForm.SELECT_BOARD_BUTTON_NAME
 import platformio.services.BoardService
-import platformio.services.Framework
 import platformio.services.FrameworkService
 import javax.swing.JFrame
 
@@ -31,16 +30,10 @@ class NewPIOProjectSettingsFormTest {
     private val frame = JFrame()
     private val window = FrameFixture(GuiActionRunner.execute<JFrame> { frame })
 
-    private val boardA = Board("A")
-    private val boardB = Board("B")
-
-    private val frameworkA = Framework("A")
-    private val frameworkB = Framework("B")
-
     @Before
     fun setUp() {
         `when`(boardService.loadAllBoards()).thenReturn(listOf(boardA, boardB))
-        `when`(frameworkService.loadAllFrameworks()).thenReturn(listOf(frameworkA, frameworkB))
+//        `when`(frameworkService.loadAllFrameworks()).thenReturn(listOf(frameworkA, frameworkB))
     }
 
     private fun showWindow() {
@@ -57,25 +50,16 @@ class NewPIOProjectSettingsFormTest {
     @Test
     fun picksBoardAndFramework() {
         showWindow()
+        window.button(SELECT_BOARD_BUTTON_NAME).click()
 
-        window.comboBox(NewPIOProjectSettingsForm.BOARDS).selectItem(boardA.name);
-        window.comboBox(NewPIOProjectSettingsForm.FRAMEWORKS).selectItem(frameworkB.name);
+        val dialog = window.dialog(BOARD_CATALOG_DIALOG_NAME, Timeout.timeout(500))
 
-        assertThat(form.board, `is`(boardA))
-        assertThat(form.framework, `is`(frameworkB))
-    }
+        dialog.requireModal()
+        dialog.table(BoardsTableModel.BOARD_TABLE_NAME).cell(TableCell.row(1).column(0)).click()
 
-    @Test
-    fun returnsNullIfNoBoardsLoaded() {
-        `when`(boardService.loadAllBoards()).thenReturn(emptyList())
-        showWindow()
-        assertThat(form.board, nullValue())
-    }
+        dialog.button(BoardCatalogDialog.OK_BUTTON_NAME).click()
 
-    @Test
-    fun returnsNullIfFrameworkNotSelected() {
-        `when`(frameworkService.loadAllFrameworks()).thenReturn(emptyList())
-        showWindow()
-        assertThat(form.framework, nullValue())
+        window.list("selectedBoards")
+
     }
 }

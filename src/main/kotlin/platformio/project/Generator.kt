@@ -25,6 +25,7 @@ import com.intellij.platform.DirectoryProjectGenerator
 import com.intellij.platform.ProjectGeneratorPeer
 import com.intellij.platform.WebProjectGenerator
 import platformio.PlatformIO
+import platformio.project.ui.NewPIOProjectSettingsForm
 import platformio.services.BoardService
 import platformio.services.FrameworkService
 import platformio.toolwindow.console.ID
