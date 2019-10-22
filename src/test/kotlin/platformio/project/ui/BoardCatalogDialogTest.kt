@@ -14,8 +14,6 @@ import javax.swing.JDialog
 
 class BoardCatalogDialogTest {
     val dialog = BoardCatalogDialog(listOf(boardA, boardB))
-
-
     private val window = DialogFixture(GuiActionRunner.execute<JDialog> { dialog })
 
     @Before

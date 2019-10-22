@@ -27,3 +27,14 @@ val boardB = Board(
         ram = Memory(3072),
         flash = Memory(4096)
 )
+val boardC = Board(
+        id = "idC",
+        name = "someNameC",
+        platform = "somePlatformC",
+        frameworks = listOf("frameworkAAA", "frameworkBBB"),
+        mcu = "someMCUC",
+        debug = "someDebugC",
+        frequency = Frequency(3000000),
+        ram = Memory(5120),
+        flash = Memory(5120)
+)
