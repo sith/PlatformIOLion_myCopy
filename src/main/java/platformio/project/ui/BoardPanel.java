@@ -7,7 +7,6 @@ import platformio.services.Board;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -44,7 +43,7 @@ public class BoardPanel extends JPanel {
         removeButton = new JButton("");
         removeButton.setName(REMOVE_BUTTON + board.getId());
         removeButton.setIcon(AllIcons.Actions.Cancel);
-        removeButton.addActionListener(e -> boardPanelRemovalListener.onRemove(this));
+        removeButton.addActionListener(e -> boardPanelRemovalListener.onRemove(board));
         checkboxListItemListModel = new CheckboxListItemListModel(board.getFrameworks().stream().map(CheckboxListItem::new).collect(Collectors.toList()));
         frameworksList = new JBList<>(checkboxListItemListModel);
         frameworksList.setName(FRAMEWORKS_LIST_NAME + board.getId());
@@ -68,8 +67,8 @@ public class BoardPanel extends JPanel {
         return checkboxListItemListModel.getSelectedItems();
     }
 
-    public interface BoardPanelRemovalListener extends ActionListener {
-        void onRemove(BoardPanel boardPanel);
+    public interface BoardPanelRemovalListener {
+        void onRemove(Board board);
     }
 
     static class CheckboxListRenderer extends JCheckBox implements
@@ -88,5 +87,6 @@ public class BoardPanel extends JPanel {
             return this;
         }
     }
+
 
 }

@@ -63,10 +63,9 @@ class NewPIOProjectSettingsFormTest {
 
         dialog.button(BoardCatalogDialog.OK_BUTTON_NAME).click()
 
-        window.panel("board_" + boardA.id)
+        val selectedBoardList = window.list(NewPIOProjectSettingsForm.SELECTED_BOARD_LIST_NAME)
 
-        window.panel("board_" + boardB.id)
-
+        selectedBoardList.requireItemCount(2)
     }
 
     private fun DialogFixture.selectBoard(rowIndex: Board) {

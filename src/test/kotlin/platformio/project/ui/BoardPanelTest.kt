@@ -58,6 +58,6 @@ class BoardPanelTest {
     @Test
     fun removeButtonClicked() {
         window.button(BoardPanel.REMOVE_BUTTON + boardA.id).click()
-        verify(boardPanelRemovalListener).onRemove(boardPanel)
+        verify(boardPanelRemovalListener).onRemove(boardA)
     }
 }

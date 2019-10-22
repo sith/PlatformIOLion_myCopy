@@ -19,12 +19,12 @@ class CommandLineBoardService : BoardService {
                 ram = Memory(1024),
                 flash = Memory(2048)
         ), Board(
-                id = "idA",
-                name = "someNameA",
-                platform = "somePlatformA",
+                id = "idB",
+                name = "someNameB",
+                platform = "somePlatformB",
                 frameworks = listOf("frameworkA", "frameworkB"),
-                mcu = "someMCUA",
-                debug = "someDebugA",
+                mcu = "someMCUB",
+                debug = "someDebugB",
                 frequency = Frequency(1000000),
                 ram = Memory(1024),
                 flash = Memory(2048)))
