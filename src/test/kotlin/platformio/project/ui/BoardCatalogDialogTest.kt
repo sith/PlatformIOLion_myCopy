@@ -36,7 +36,7 @@ class BoardCatalogDialogTest {
         table.requireColumnNamed(BoardsTableModel.Column.CHECK_BOX_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.NAME_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.PLATFORM_COLUMN.columnName)
-        table.requireColumnNamed(BoardsTableModel.Column.FRAMEWORKS_COLUMN.columnName)
+        table.requireColumnNamed(BoardsTableModel.Column.FRAMEWORK_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.MCU_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.DEBUG_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.FREQUENCY_COLUMN.columnName)
@@ -100,7 +100,7 @@ class BoardCatalogDialogTest {
     private fun JTableFixture.hasRow(rowIndex: Int, board: Board) {
         cell(TableCell.row(rowIndex).column(1)).requireValue(board.name)
         cell(TableCell.row(rowIndex).column(2)).requireValue(board.platform)
-        cell(TableCell.row(rowIndex).column(3)).requireValue(board.frameworks.joinToString(BoardsTableModel.LIST_DELIMITER))
+        cell(TableCell.row(rowIndex).column(3)).requireValue(board.framework)
         cell(TableCell.row(rowIndex).column(4)).requireValue(board.mcu)
         cell(TableCell.row(rowIndex).column(5)).requireValue(board.debug)
         cell(TableCell.row(rowIndex).column(6)).requireValue(board.frequency.toMHz())

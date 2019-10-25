@@ -13,7 +13,7 @@ class BoardsTableModel(private val boards: List<Board>) : AbstractTableModel() {
         CHECK_BOX_COLUMN("", { false }),
         NAME_COLUMN("Name", { board -> board.name }),
         PLATFORM_COLUMN("Platform", { board -> board.platform }),
-        FRAMEWORKS_COLUMN("Frameworks", { board -> board.frameworks.joinToString(LIST_DELIMITER) }),
+        FRAMEWORK_COLUMN("Framework", { board -> board.framework}),
         MCU_COLUMN("MCU", { board -> board.mcu }),
         DEBUG_COLUMN("Debug", { board -> board.debug }),
         FREQUENCY_COLUMN("Frequency", { board -> board.frequency.toMHz() }),

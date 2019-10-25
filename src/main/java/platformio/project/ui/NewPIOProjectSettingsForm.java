@@ -12,7 +12,7 @@ import javax.swing.*;
 
 public class NewPIOProjectSettingsForm {
     public static final String SELECT_BOARD_BUTTON_NAME = "selectBoardButton";
-    public static final String SELECTED_BOARD_LIST_NAME = "selectedBoardList";
+    public static final String SELECTED_BOARD_TABLE_NAME = "selectedBoardTable";
     private final BoardService boardService;
     private final FrameworkService frameworkService;
     private JPanel mainPanel;
@@ -27,7 +27,7 @@ public class NewPIOProjectSettingsForm {
             BoardCatalogDialog boardCatalogDialog = new BoardCatalogDialog(boardService.loadAllBoards());
             boardCatalogDialog.setVisible(true);
 
-            boardCatalogDialog.getSelectedBoards().forEach(board -> selectedBoardListModel.addElement(board));
+            selectedBoardsScrollPane.add(new BoardTable(boardCatalogDialog.getSelectedBoards()).getTable());
         });
     }
 
@@ -50,7 +50,7 @@ public class NewPIOProjectSettingsForm {
 
         selectedBoardListModel = new DefaultListModel<>();
         final JBList<Board> selectedBoardList = new JBList<>(selectedBoardListModel);
-        selectedBoardList.setName(SELECTED_BOARD_LIST_NAME);
+        selectedBoardList.setName(SELECTED_BOARD_TABLE_NAME);
         selectedBoardList.setCellRenderer(new BoardPanelListCellRenderer(boardPanel -> selectedBoardListModel.removeElement(boardPanel)));
         selectedBoardsScrollPane = new JBScrollPane(selectedBoardList);
     }

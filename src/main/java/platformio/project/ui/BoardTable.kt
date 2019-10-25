@@ -1,7 +1,7 @@
 package platformio.project.ui
 
-import com.intellij.ui.table.JBTable
 import platformio.services.Board
+import javax.swing.JTable
 import javax.swing.RowFilter
 import javax.swing.table.TableRowSorter
 
@@ -9,7 +9,7 @@ import javax.swing.table.TableRowSorter
 class BoardTable(boards: List<Board>) {
     private val boardTableModel: BoardsTableModel = BoardsTableModel(boards)
 
-    val table = JBTable(boardTableModel)
+    val table = JTable(boardTableModel)
     private var rowSorter = TableRowSorter(boardTableModel)
 
     init {
@@ -20,7 +20,7 @@ class BoardTable(boards: List<Board>) {
 
     fun clearSelectedBoards() = boardTableModel.clearSelectedBoards()
 
-    fun getSelectedBoards(): MutableSet<Board> = boardTableModel.selectedBoards
+    fun getSelectedBoards(): Collection<Board> = boardTableModel.selectedBoards
 
     fun filterTable(text: String) {
         if (text.trim { it <= ' ' }.isEmpty()) {

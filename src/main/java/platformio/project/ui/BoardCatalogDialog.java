@@ -10,6 +10,7 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,7 +21,6 @@ public class BoardCatalogDialog extends JDialog {
     public static final String CANCEL_BUTTON_NAME = "cancelButton";
 
     private BoardTable boardTable;
-
 
     private JPanel contentPane;
     private JButton buttonOK;
@@ -53,7 +53,6 @@ public class BoardCatalogDialog extends JDialog {
 
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-
         pack();
     }
 
@@ -77,8 +76,8 @@ public class BoardCatalogDialog extends JDialog {
     }
 
     @NotNull
-    public Collection<Board> getSelectedBoards() {
-        return boardTable.getSelectedBoards();
+    public List<Board> getSelectedBoards() {
+        return new ArrayList<>(boardTable.getSelectedBoards());
     }
 
     private class SearchBoardDocumentListener implements DocumentListener {

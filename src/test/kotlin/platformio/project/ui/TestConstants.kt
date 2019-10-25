@@ -4,12 +4,11 @@ import platformio.services.Board
 import platformio.services.Frequency
 import platformio.services.Memory
 
-
 val boardA = Board(
         id = "idA",
         name = "someNameA",
         platform = "somePlatformA",
-        frameworks = listOf("frameworkA", "frameworkB"),
+        framework = "frameworkA",
         mcu = "someMCUA",
         debug = "someDebugA",
         frequency = Frequency(1000000),
@@ -20,7 +19,7 @@ val boardB = Board(
         id = "idB",
         name = "someNameB",
         platform = "somePlatformB",
-        frameworks = listOf("frameworkAA", "frameworkBB"),
+        framework = "frameworkAB",
         mcu = "someMCUB",
         debug = "someDebugB",
         frequency = Frequency(2000000),
@@ -31,7 +30,7 @@ val boardC = Board(
         id = "idC",
         name = "someNameC",
         platform = "somePlatformC",
-        frameworks = listOf("frameworkAAA", "frameworkBBB"),
+        framework = "frameworkC",
         mcu = "someMCUC",
         debug = "someDebugC",
         frequency = Frequency(3000000),

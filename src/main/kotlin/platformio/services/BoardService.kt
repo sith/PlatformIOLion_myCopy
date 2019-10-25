@@ -9,7 +9,7 @@ data class Board(
         val id: String,
         val name: String,
         val platform: String,
-        val frameworks: List<String>,
+        val framework: String,
         val mcu: String,
         val debug: String,
         val frequency: Frequency,

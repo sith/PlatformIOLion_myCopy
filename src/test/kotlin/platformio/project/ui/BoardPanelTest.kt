@@ -2,10 +2,7 @@ package platformio.project.ui
 
 import org.assertj.swing.edt.GuiActionRunner
 import org.assertj.swing.fixture.FrameFixture
-import org.hamcrest.Matchers.contains
 import org.junit.After
-import org.junit.Assert
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,18 +38,7 @@ class BoardPanelTest {
         window.label(BoardPanel.NAME_LABEL + boardA.id).requireText(boardA.name)
         window.label(BoardPanel.NAME_LABEL + boardA.id).requireText(boardA.name)
         window.button(BoardPanel.REMOVE_BUTTON + boardA.id)
-        val frameworksList = window.list(BoardPanel.FRAMEWORKS_LIST_NAME + boardA.id)
-        frameworksList.requireItemCount(boardA.frameworks.size)
-        frameworksList.item(boardA.frameworks[0])
-        frameworksList.item(boardA.frameworks[1])
-    }
-
-    @Test
-    fun selectFramework() {
-        val frameworksList = window.list(BoardPanel.FRAMEWORKS_LIST_NAME + boardA.id)
-        val expectedFramework = boardA.frameworks[1]
-        frameworksList.item(expectedFramework).click()
-        assertThat(boardPanel.selectedFrameworks, contains(expectedFramework))
+        window.label(BoardPanel.FRAMEWORKS_LABLE_NAME + boardA.id).requireText(boardA.framework)
     }
 
     @Test
