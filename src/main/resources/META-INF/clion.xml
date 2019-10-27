@@ -3,7 +3,5 @@
         <directoryProjectGenerator implementation="platformio.project.Generator"/>
         <applicationService serviceInterface="platformio.services.PlatformIOService"
                             serviceImplementation="platformio.services.impl.CommandLinePlatformIOService"/>
-        <applicationService serviceInterface="platformio.services.FrameworkService"
-                            serviceImplementation="platformio.services.impl.CommandLineFrameworkService"/>
     </extensions>
 </idea-plugin>

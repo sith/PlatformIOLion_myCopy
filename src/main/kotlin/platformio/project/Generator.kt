@@ -27,7 +27,6 @@ import com.intellij.platform.WebProjectGenerator
 import platformio.PlatformIO
 import platformio.project.ui.NewPIOProjectSettingsForm
 import platformio.services.PlatformIOService
-import platformio.services.FrameworkService
 import platformio.toolwindow.console.ID
 import java.io.File
 import javax.swing.Icon
@@ -83,14 +82,14 @@ class Generator : DirectoryProjectGenerator<Settings>, CustomStepProjectGenerato
 }
 
 class Peer : ProjectGeneratorPeer<Settings> {
-    val form = NewPIOProjectSettingsForm(ServiceManager.getService(PlatformIOService::class.java), ServiceManager.getService(FrameworkService::class.java))
+    val form = NewPIOProjectSettingsForm(ServiceManager.getService(PlatformIOService::class.java))
 
     override fun validate(): ValidationInfo? {
         return null
     }
 
     override fun getSettings(): Settings {
-        return Settings(form.board, form.framework)
+        return Settings(form.board)
     }
 
     override fun addSettingsStateListener(listener: WebProjectGenerator.SettingsStateListener) {

@@ -4,8 +4,6 @@ import com.intellij.ui.components.JBScrollPane;
 import org.jetbrains.annotations.NotNull;
 import platformio.services.Board;
 import platformio.services.PlatformIOService;
-import platformio.services.Framework;
-import platformio.services.FrameworkService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,16 +18,14 @@ public class NewPIOProjectSettingsForm {
     public static final String PLATFORM_COLUMN = "Platform";
     public static final String FRAMEWORK_COLUMN = "Framework";
     private final PlatformIOService platformIOService;
-    private final FrameworkService frameworkService;
     private JPanel mainPanel;
     private JButton selectBoardButton;
     private JScrollPane selectedBoardsScrollPane;
     private DefaultTableModel selectedBoardsTableModel;
     private Set<Board> selectedBoards = new HashSet<>();
 
-    public NewPIOProjectSettingsForm(PlatformIOService platformIOService, FrameworkService frameworkService) {
+    public NewPIOProjectSettingsForm(PlatformIOService platformIOService) {
         this.platformIOService = platformIOService;
-        this.frameworkService = frameworkService;
         selectBoardButton.addActionListener(e -> {
             BoardCatalogDialog boardCatalogDialog = new BoardCatalogDialog(platformIOService.loadAllBoards(), selectedBoards);
             boardCatalogDialog.setVisible(true);
@@ -51,10 +47,6 @@ public class NewPIOProjectSettingsForm {
             selectedBoardsTableModel.removeRow(i);
 
         }
-    }
-
-    public Framework getFramework() {
-        throw new UnsupportedOperationException();
     }
 
     public Board getBoard() {

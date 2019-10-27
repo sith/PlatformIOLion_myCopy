@@ -22,9 +22,6 @@ import javax.swing.JFrame
 
 @RunWith(MockitoJUnitRunner::class)
 class NewPIOProjectSettingsFormTest {
-
-    @Mock
-    private lateinit var frameworkService: FrameworkService
     @Mock
     private lateinit var platformIOService: PlatformIOService
     @Mock
@@ -41,7 +38,7 @@ class NewPIOProjectSettingsFormTest {
     }
 
     private fun showWindow() {
-        form = NewPIOProjectSettingsForm(platformIOService, frameworkService)
+        form = NewPIOProjectSettingsForm(platformIOService)
         frame.add(form.component)
         window.show()
     }
