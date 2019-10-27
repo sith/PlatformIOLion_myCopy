@@ -1,11 +1,11 @@
 package platformio.services.impl
 
 import platformio.services.Board
-import platformio.services.BoardService
+import platformio.services.PlatformIOService
 import platformio.services.Frequency
 import platformio.services.Memory
 
-class CommandLineBoardService : BoardService {
+class CommandLinePlatformIOService : PlatformIOService {
 
     override fun loadAllBoards(): List<Board> {
         return listOf(Board(

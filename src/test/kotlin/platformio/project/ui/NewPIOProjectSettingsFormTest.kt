@@ -16,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import platformio.project.ui.BoardCatalogDialog.BOARD_CATALOG_DIALOG_NAME
 import platformio.project.ui.NewPIOProjectSettingsForm.SELECT_BOARD_BUTTON_NAME
 import platformio.services.Board
-import platformio.services.BoardService
+import platformio.services.PlatformIOService
 import platformio.services.FrameworkService
 import javax.swing.JFrame
 
@@ -26,7 +26,7 @@ class NewPIOProjectSettingsFormTest {
     @Mock
     private lateinit var frameworkService: FrameworkService
     @Mock
-    private lateinit var boardService: BoardService
+    private lateinit var platformIOService: PlatformIOService
     @Mock
     private lateinit var form: NewPIOProjectSettingsForm
 
@@ -37,11 +37,11 @@ class NewPIOProjectSettingsFormTest {
 
     @Before
     fun setUp() {
-        `when`(boardService.loadAllBoards()).thenReturn(boards)
+        `when`(platformIOService.loadAllBoards()).thenReturn(boards)
     }
 
     private fun showWindow() {
-        form = NewPIOProjectSettingsForm(boardService, frameworkService)
+        form = NewPIOProjectSettingsForm(platformIOService, frameworkService)
         frame.add(form.component)
         window.show()
     }

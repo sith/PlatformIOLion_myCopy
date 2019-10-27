@@ -1,7 +1,7 @@
 package platformio.services
 
 
-interface BoardService {
+interface PlatformIOService {
     fun loadAllBoards(): List<Board>
 }
 

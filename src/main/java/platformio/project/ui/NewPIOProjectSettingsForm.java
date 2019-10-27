@@ -3,7 +3,7 @@ package platformio.project.ui;
 import com.intellij.ui.components.JBScrollPane;
 import org.jetbrains.annotations.NotNull;
 import platformio.services.Board;
-import platformio.services.BoardService;
+import platformio.services.PlatformIOService;
 import platformio.services.Framework;
 import platformio.services.FrameworkService;
 
@@ -19,7 +19,7 @@ public class NewPIOProjectSettingsForm {
     public static final String NAME_COLUMN = "Name";
     public static final String PLATFORM_COLUMN = "Platform";
     public static final String FRAMEWORK_COLUMN = "Framework";
-    private final BoardService boardService;
+    private final PlatformIOService platformIOService;
     private final FrameworkService frameworkService;
     private JPanel mainPanel;
     private JButton selectBoardButton;
@@ -27,11 +27,11 @@ public class NewPIOProjectSettingsForm {
     private DefaultTableModel selectedBoardsTableModel;
     private Set<Board> selectedBoards = new HashSet<>();
 
-    public NewPIOProjectSettingsForm(BoardService boardService, FrameworkService frameworkService) {
-        this.boardService = boardService;
+    public NewPIOProjectSettingsForm(PlatformIOService platformIOService, FrameworkService frameworkService) {
+        this.platformIOService = platformIOService;
         this.frameworkService = frameworkService;
         selectBoardButton.addActionListener(e -> {
-            BoardCatalogDialog boardCatalogDialog = new BoardCatalogDialog(boardService.loadAllBoards(), selectedBoards);
+            BoardCatalogDialog boardCatalogDialog = new BoardCatalogDialog(platformIOService.loadAllBoards(), selectedBoards);
             boardCatalogDialog.setVisible(true);
 
             List<Board> selectedBoards = boardCatalogDialog.getSelectedBoards();
