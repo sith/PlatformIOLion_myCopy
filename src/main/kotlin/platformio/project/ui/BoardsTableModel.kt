@@ -4,8 +4,8 @@ import platformio.services.Board
 
 import javax.swing.table.AbstractTableModel
 
-class BoardsTableModel(private val boards: List<Board>) : AbstractTableModel() {
-    val selectedBoards: MutableSet<Board> = HashSet()
+class BoardsTableModel(private val boards: List<Board>, selectedBoards: Set<Board> = emptySet()) : AbstractTableModel() {
+    val selectedBoards: MutableSet<Board> = HashSet(selectedBoards)
 
     enum class Column(val columnName: String,
                       val rowObjectFactory: (Board) -> Any
@@ -13,7 +13,7 @@ class BoardsTableModel(private val boards: List<Board>) : AbstractTableModel() {
         CHECK_BOX_COLUMN("", { false }),
         NAME_COLUMN("Name", { board -> board.name }),
         PLATFORM_COLUMN("Platform", { board -> board.platform }),
-        FRAMEWORK_COLUMN("Framework", { board -> board.framework}),
+        FRAMEWORK_COLUMN("Framework", { board -> board.framework }),
         MCU_COLUMN("MCU", { board -> board.mcu }),
         DEBUG_COLUMN("Debug", { board -> board.debug }),
         FREQUENCY_COLUMN("Frequency", { board -> board.frequency.toMHz() }),
@@ -22,7 +22,6 @@ class BoardsTableModel(private val boards: List<Board>) : AbstractTableModel() {
     }
 
     companion object {
-        const val LIST_DELIMITER = ", "
         const val BOARD_TABLE_NAME = "boardTable"
     }
 
@@ -47,7 +46,6 @@ class BoardsTableModel(private val boards: List<Board>) : AbstractTableModel() {
     }
 
     override fun getValueAt(rowIndex: Int, columnIndex: Int): Any? {
-
         if (columnIndex == 0) {
             return selectedBoards.contains(boards[rowIndex])
         }

@@ -6,8 +6,8 @@ import javax.swing.RowFilter
 import javax.swing.table.TableRowSorter
 
 
-class BoardTable(boards: List<Board>) {
-    private val boardTableModel: BoardsTableModel = BoardsTableModel(boards)
+class BoardTable(boards: List<Board>, selectedBoards: Set<Board>) {
+    private val boardTableModel: BoardsTableModel = BoardsTableModel(boards, selectedBoards)
 
     val table = JTable(boardTableModel)
     private var rowSorter = TableRowSorter(boardTableModel)

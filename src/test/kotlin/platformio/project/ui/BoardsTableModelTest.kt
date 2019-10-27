@@ -4,12 +4,12 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.contains
 import org.junit.Test
-import kotlin.test.assertFalse
+import platformio.services.Board
 import kotlin.test.assertTrue
 
 class BoardsTableModelTest {
 
-    val boardsTableModel = BoardsTableModel(listOf(boardA))
+    val boardsTableModel = BoardsTableModel(listOf(boardA, boardB), setOf(boardB))
 
 
     @Test
@@ -28,7 +28,7 @@ class BoardsTableModelTest {
 
     @Test
     fun rowCount() {
-        assertThat(boardsTableModel.rowCount, `is`(1))
+        assertThat(boardsTableModel.rowCount, `is`(2))
     }
 
     @Test
@@ -41,19 +41,24 @@ class BoardsTableModelTest {
     @Test
     fun setValue() {
         boardsTableModel.setValueAt(true, 0, 0)
-        assertThat(boardsTableModel.selectedBoards, contains(boardA))
+        assertThat(boardsTableModel.selectedBoards, contains(boardA, boardB))
     }
 
     @Test
     fun rowValues() {
-        assertFalse(boardsTableModel.getValueAt(0, 0) as Boolean)
-        assertThat(boardsTableModel.getValueAt(0, 1).toString(), `is`(boardA.name))
-        assertThat(boardsTableModel.getValueAt(0, 2).toString(), `is`(boardA.platform))
-        assertThat(boardsTableModel.getValueAt(0, 3).toString(), `is`(boardA.framework))
-        assertThat(boardsTableModel.getValueAt(0, 4).toString(), `is`(boardA.mcu))
-        assertThat(boardsTableModel.getValueAt(0, 5).toString(), `is`(boardA.debug))
-        assertThat(boardsTableModel.getValueAt(0, 6).toString(), `is`(boardA.frequency.toMHz()))
-        assertThat(boardsTableModel.getValueAt(0, 7).toString(), `is`(boardA.ram.toKB()))
-        assertThat(boardsTableModel.getValueAt(0, 8).toString(), `is`(boardA.flash.toKB()))
+        boardA.existsInRow(0, false)
+        boardB.existsInRow(1, true)
+    }
+
+    private fun Board.existsInRow(row: Int, selected: Boolean) {
+        assertThat(boardsTableModel.getValueAt(row, 0) as Boolean, `is`(selected))
+        assertThat(boardsTableModel.getValueAt(row, 1).toString(), `is`(name))
+        assertThat(boardsTableModel.getValueAt(row, 2).toString(), `is`(platform))
+        assertThat(boardsTableModel.getValueAt(row, 3).toString(), `is`(framework))
+        assertThat(boardsTableModel.getValueAt(row, 4).toString(), `is`(mcu))
+        assertThat(boardsTableModel.getValueAt(row, 5).toString(), `is`(debug))
+        assertThat(boardsTableModel.getValueAt(row, 6).toString(), `is`(frequency.toMHz()))
+        assertThat(boardsTableModel.getValueAt(row, 7).toString(), `is`(ram.toKB()))
+        assertThat(boardsTableModel.getValueAt(row, 8).toString(), `is`(flash.toKB()))
     }
 }

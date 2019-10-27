@@ -11,8 +11,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BoardCatalogDialog extends JDialog {
     public static final String BOARD_CATALOG_DIALOG_NAME = "boardCatalogDialog";
@@ -28,10 +29,11 @@ public class BoardCatalogDialog extends JDialog {
     private JTextField searchBoardTextField;
     private JScrollPane boardTableScrollPane;
     private List<Board> boards;
+    private Set<Board> previouslySelectedBoards;
 
-    public BoardCatalogDialog(List<Board> boards) {
+    public BoardCatalogDialog(List<Board> boards, Set<Board> previouslySelectedBoards) {
         this.boards = boards;
-
+        this.previouslySelectedBoards = previouslySelectedBoards;
 
         setContentPane(contentPane);
         setModal(true);
@@ -69,9 +71,7 @@ public class BoardCatalogDialog extends JDialog {
         searchBoardTextField = new JTextField();
         searchBoardTextField.setName(SEARCH_BOARD_TEXTFIELD_NAME);
         searchBoardTextField.getDocument().addDocumentListener(new SearchBoardDocumentListener());
-
-        boardTable = new BoardTable(boards);
-
+        this.boardTable = new BoardTable(boards, previouslySelectedBoards);
         boardTableScrollPane = new JBScrollPane(boardTable.getTable());
     }
 

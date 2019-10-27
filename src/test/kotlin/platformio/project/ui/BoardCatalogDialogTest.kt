@@ -3,17 +3,16 @@ package platformio.project.ui
 import org.assertj.swing.data.TableCell
 import org.assertj.swing.edt.GuiActionRunner
 import org.assertj.swing.fixture.DialogFixture
-import org.assertj.swing.fixture.JTableFixture
-import org.hamcrest.Matchers.contains
+import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.After
 import org.junit.Assert
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
-import platformio.services.Board
 import javax.swing.JDialog
 
 class BoardCatalogDialogTest {
-    val dialog = BoardCatalogDialog(listOf(boardA, boardB))
+    val dialog = BoardCatalogDialog(listOf(boardA, boardB), setOf(boardB))
     private val window = DialogFixture(GuiActionRunner.execute<JDialog> { dialog })
 
     @Before
@@ -46,12 +45,11 @@ class BoardCatalogDialogTest {
 
     @Test
     fun boardTableRows() {
-
         val table = window.table(BoardsTableModel.BOARD_TABLE_NAME)
         table.requireRowCount(2)
 
-        table.hasRow(0, boardA)
-        table.hasRow(1, boardB)
+        table.hasBoard(0, boardA, false)
+        table.hasBoard(1, boardB, true)
 
     }
 
@@ -67,13 +65,13 @@ class BoardCatalogDialogTest {
     }
 
     @Test
-    fun returnsSelectedBoards() {
+    fun returnsNewlySelectedBoardWithPreviouslySelectedBoard() {
         val table = window.table(BoardsTableModel.BOARD_TABLE_NAME)
-        table.cell(TableCell.row(1).column(0)).click()
+        table.cell(TableCell.row(0).column(0)).click()
 
         window.button(BoardCatalogDialog.OK_BUTTON_NAME).click()
 
-        Assert.assertThat(dialog.selectedBoards, contains(boardB))
+        assertThat(dialog.selectedBoards, containsInAnyOrder(boardA, boardB))
     }
 
     @Test
@@ -94,17 +92,5 @@ class BoardCatalogDialogTest {
         window.close()
 
         Assert.assertTrue(dialog.selectedBoards.isEmpty())
-    }
-
-
-    private fun JTableFixture.hasRow(rowIndex: Int, board: Board) {
-        cell(TableCell.row(rowIndex).column(1)).requireValue(board.name)
-        cell(TableCell.row(rowIndex).column(2)).requireValue(board.platform)
-        cell(TableCell.row(rowIndex).column(3)).requireValue(board.framework)
-        cell(TableCell.row(rowIndex).column(4)).requireValue(board.mcu)
-        cell(TableCell.row(rowIndex).column(5)).requireValue(board.debug)
-        cell(TableCell.row(rowIndex).column(6)).requireValue(board.frequency.toMHz())
-        cell(TableCell.row(rowIndex).column(7)).requireValue(board.ram.toKB())
-        cell(TableCell.row(rowIndex).column(8)).requireValue(board.flash.toKB())
     }
 }
