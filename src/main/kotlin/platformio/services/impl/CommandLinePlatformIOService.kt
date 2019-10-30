@@ -2,43 +2,51 @@ package platformio.services.impl
 
 import com.beust.klaxon.Klaxon
 import com.intellij.execution.configurations.GeneralCommandLine
-import com.intellij.execution.util.ExecUtil
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
-import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.util.Computable
+import org.jetbrains.concurrency.CancellablePromise
 import platformio.services.Board
 import platformio.services.Frequency
 import platformio.services.Memory
 import platformio.services.PlatformIOService
+import java.util.concurrent.Callable
 import java.util.concurrent.ExecutionException
+import java.util.concurrent.Executors
 
 
 class CommandLinePlatformIOService : PlatformIOService {
-    val boards: List<Board> = loadBoardsInternal()
+    val boards: CancellablePromise<List<Board>> = loadBoardsInternal()
 
     companion object {
         val log = Logger.getInstance(CommandLinePlatformIOService::class.java);
     }
 
     override fun loadAllBoards(): List<Board> {
-        return boards
+        return boards.get()
     }
 
-    private fun loadBoardsInternal(): List<Board> {
-        return ApplicationManager.getApplication().runReadAction(Computable<List<Board>> {
-            try {
-                val commandLine = GeneralCommandLine("platformio", "boards", "--json-output")
-                val json = ExecUtil.execAndGetOutput(commandLine).stdout
-                return@Computable Klaxon().parseArray<BoardModel>(json)?.map { it.toBoards() }?.flatten() ?: emptyList()
-            } catch (e: ExecutionException) {
-                log.error("Cannot load boards", e)
-                Notifications.Bus.notify(Notification("PlatformIO", "Cannot load boards", "Check logs for details.", NotificationType.ERROR))
+    private fun loadBoardsInternal(): CancellablePromise<List<Board>> {
+        return ReadAction.nonBlocking(object : Callable<List<Board>> {
+            override fun call(): List<Board> {
+                try {
+                    val commandLine = GeneralCommandLine("platformio", "boards", "--json-output")
+                    return commandLine.createProcess().inputStream
+                            .use { inputStream ->
+                                Klaxon().parseArray<BoardModel>(inputStream)
+                                        ?.map { it.toBoards() }
+                                        ?.flatten()
+                                        ?: emptyList()
+                            }
+                } catch (e: ExecutionException) {
+                    log.error("Cannot load boards", e)
+                    Notifications.Bus.notify(Notification("PlatformIO", "Cannot load boards", "Check logs for details.", NotificationType.ERROR))
+                }
+                return emptyList()
             }
-            emptyList()
-        });
+        }).submit(Executors.newSingleThreadExecutor())
     }
 
     data class BoardModel(
