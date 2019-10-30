@@ -8,7 +8,7 @@ buildscript {
     mavenCentral()
     jcenter()
   }
-  dependencies { classpath(kotlin("gradle-plugin", "1.3.41")) }
+  dependencies { classpath(kotlin("gradle-plugin", "1.3.50")) }
 }
 repositories {
     mavenCentral()
@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
+  implementation( "com.beust:klaxon:5.0.13")
   api("org.junit.jupiter:junit-jupiter-api:5.3.1")
   testImplementation("org.junit.jupiter:junit-jupiter-engine:5.3.1")
   testCompile("org.assertj:assertj-swing-junit:3.9.2")
@@ -24,10 +26,9 @@ dependencies {
 }
 
 plugins {
-  kotlin("jvm") version "1.3.41"
-  id("org.jetbrains.intellij") version "0.4.9"
+  kotlin("jvm") version "1.3.50"
+  id("org.jetbrains.intellij") version "0.4.10"
 }
-
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {

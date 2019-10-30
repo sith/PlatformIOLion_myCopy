@@ -15,7 +15,6 @@ class BoardsTableModel(private val boards: List<Board>, selectedBoards: Set<Boar
         PLATFORM_COLUMN("Platform", { board -> board.platform }),
         FRAMEWORK_COLUMN("Framework", { board -> board.framework }),
         MCU_COLUMN("MCU", { board -> board.mcu }),
-        DEBUG_COLUMN("Debug", { board -> board.debug }),
         FREQUENCY_COLUMN("Frequency", { board -> board.frequency.toMHz() }),
         RAM_COLUMN("RAM", { board -> board.ram.toKB() }),
         FLASH_COLUMN("Flash", { board -> board.flash.toKB() }),

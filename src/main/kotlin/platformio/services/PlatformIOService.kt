@@ -11,7 +11,6 @@ data class Board(
         val platform: String,
         val framework: String,
         val mcu: String,
-        val debug: String,
         val frequency: Frequency,
         val ram: Memory,
         val flash: Memory
@@ -23,7 +22,7 @@ inline class Frequency(val value: Int) {
     }
 }
 
-inline class Memory(val value: Int) {
+inline class Memory(val value: Long) {
     fun toKB(): String {
         return "${value / 1024} kB"
     }

@@ -7,11 +7,11 @@ import platformio.services.Board;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,6 +73,8 @@ public class BoardCatalogDialog extends JDialog {
         searchBoardTextField.getDocument().addDocumentListener(new SearchBoardDocumentListener());
         this.boardTable = new BoardTable(boards, previouslySelectedBoards);
         boardTableScrollPane = new JBScrollPane(boardTable.getTable());
+        boardTableScrollPane.setPreferredSize(new Dimension(950, 400));
+
     }
 
     @NotNull

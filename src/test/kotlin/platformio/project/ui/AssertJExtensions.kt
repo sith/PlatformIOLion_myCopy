@@ -11,8 +11,7 @@ fun JTableFixture.hasBoard(rowIndex: Int, board: Board, selected: Boolean) {
     cell(TableCell.row(rowIndex).column(2)).requireValue(board.platform)
     cell(TableCell.row(rowIndex).column(3)).requireValue(board.framework)
     cell(TableCell.row(rowIndex).column(4)).requireValue(board.mcu)
-    cell(TableCell.row(rowIndex).column(5)).requireValue(board.debug)
-    cell(TableCell.row(rowIndex).column(6)).requireValue(board.frequency.toMHz())
-    cell(TableCell.row(rowIndex).column(7)).requireValue(board.ram.toKB())
-    cell(TableCell.row(rowIndex).column(8)).requireValue(board.flash.toKB())
+    cell(TableCell.row(rowIndex).column(5)).requireValue(board.frequency.toMHz())
+    cell(TableCell.row(rowIndex).column(6)).requireValue(board.ram.toKB())
+    cell(TableCell.row(rowIndex).column(7)).requireValue(board.flash.toKB())
 }

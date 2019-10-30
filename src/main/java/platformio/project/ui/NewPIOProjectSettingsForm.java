@@ -1,6 +1,7 @@
 package platformio.project.ui;
 
 import com.intellij.ui.components.JBScrollPane;
+import kotlinx.coroutines.*;
 import org.jetbrains.annotations.NotNull;
 import platformio.services.Board;
 import platformio.services.PlatformIOService;
@@ -27,7 +28,9 @@ public class NewPIOProjectSettingsForm {
     public NewPIOProjectSettingsForm(PlatformIOService platformIOService) {
         this.platformIOService = platformIOService;
         selectBoardButton.addActionListener(e -> {
-            BoardCatalogDialog boardCatalogDialog = new BoardCatalogDialog(platformIOService.loadAllBoards(), selectedBoards);
+
+            final List<Board> boards = platformIOService.loadAllBoards();
+            BoardCatalogDialog boardCatalogDialog = new BoardCatalogDialog(boards, selectedBoards);
             boardCatalogDialog.setVisible(true);
 
             List<Board> selectedBoards = boardCatalogDialog.getSelectedBoards();

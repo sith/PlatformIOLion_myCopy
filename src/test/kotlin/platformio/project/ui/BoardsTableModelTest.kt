@@ -20,10 +20,9 @@ class BoardsTableModelTest {
         assertThat(boardsTableModel.getColumnName(2), `is`(BoardsTableModel.Column.PLATFORM_COLUMN.columnName))
         assertThat(boardsTableModel.getColumnName(3), `is`(BoardsTableModel.Column.FRAMEWORK_COLUMN.columnName))
         assertThat(boardsTableModel.getColumnName(4), `is`(BoardsTableModel.Column.MCU_COLUMN.columnName))
-        assertThat(boardsTableModel.getColumnName(5), `is`(BoardsTableModel.Column.DEBUG_COLUMN.columnName))
-        assertThat(boardsTableModel.getColumnName(6), `is`(BoardsTableModel.Column.FREQUENCY_COLUMN.columnName))
-        assertThat(boardsTableModel.getColumnName(7), `is`(BoardsTableModel.Column.RAM_COLUMN.columnName))
-        assertThat(boardsTableModel.getColumnName(8), `is`(BoardsTableModel.Column.FLASH_COLUMN.columnName))
+        assertThat(boardsTableModel.getColumnName(5), `is`(BoardsTableModel.Column.FREQUENCY_COLUMN.columnName))
+        assertThat(boardsTableModel.getColumnName(6), `is`(BoardsTableModel.Column.RAM_COLUMN.columnName))
+        assertThat(boardsTableModel.getColumnName(7), `is`(BoardsTableModel.Column.FLASH_COLUMN.columnName))
     }
 
     @Test
@@ -56,9 +55,8 @@ class BoardsTableModelTest {
         assertThat(boardsTableModel.getValueAt(row, 2).toString(), `is`(platform))
         assertThat(boardsTableModel.getValueAt(row, 3).toString(), `is`(framework))
         assertThat(boardsTableModel.getValueAt(row, 4).toString(), `is`(mcu))
-        assertThat(boardsTableModel.getValueAt(row, 5).toString(), `is`(debug))
-        assertThat(boardsTableModel.getValueAt(row, 6).toString(), `is`(frequency.toMHz()))
-        assertThat(boardsTableModel.getValueAt(row, 7).toString(), `is`(ram.toKB()))
-        assertThat(boardsTableModel.getValueAt(row, 8).toString(), `is`(flash.toKB()))
+        assertThat(boardsTableModel.getValueAt(row, 5).toString(), `is`(frequency.toMHz()))
+        assertThat(boardsTableModel.getValueAt(row, 6).toString(), `is`(ram.toKB()))
+        assertThat(boardsTableModel.getValueAt(row, 7).toString(), `is`(flash.toKB()))
     }
 }

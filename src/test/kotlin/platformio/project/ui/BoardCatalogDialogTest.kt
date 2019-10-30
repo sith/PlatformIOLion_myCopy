@@ -37,7 +37,6 @@ class BoardCatalogDialogTest {
         table.requireColumnNamed(BoardsTableModel.Column.PLATFORM_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.FRAMEWORK_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.MCU_COLUMN.columnName)
-        table.requireColumnNamed(BoardsTableModel.Column.DEBUG_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.FREQUENCY_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.RAM_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.FLASH_COLUMN.columnName)
