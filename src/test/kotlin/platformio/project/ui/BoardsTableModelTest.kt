@@ -2,14 +2,15 @@ package platformio.project.ui
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.contains
+import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.Test
 import platformio.services.Board
-import kotlin.test.assertTrue
 
 class BoardsTableModelTest {
 
-    val boardsTableModel = BoardsTableModel(listOf(boardA, boardB), setOf(boardB))
+    private val previouslySelectedBoards = setOf(boardB)
+
+    val boardsTableModel = BoardsTableModel(listOf(boardA, boardB), previouslySelectedBoards)
 
 
     @Test
@@ -33,14 +34,14 @@ class BoardsTableModelTest {
     @Test
     fun clearSelectedBoards() {
         boardsTableModel.setValueAt(true, 0, 0)
-        boardsTableModel.clearSelectedBoards()
-        assertTrue(boardsTableModel.selectedBoards.isEmpty())
+        boardsTableModel.clearNewlySelectedBoards()
+        assertThat(boardsTableModel.selectedBoards, `is`(previouslySelectedBoards))
     }
 
     @Test
     fun setValue() {
         boardsTableModel.setValueAt(true, 0, 0)
-        assertThat(boardsTableModel.selectedBoards, contains(boardA, boardB))
+        assertThat(boardsTableModel.selectedBoards, containsInAnyOrder(boardA, boardB))
     }
 
     @Test

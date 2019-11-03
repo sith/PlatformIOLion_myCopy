@@ -4,8 +4,8 @@ import platformio.services.Board
 
 import javax.swing.table.AbstractTableModel
 
-class BoardsTableModel(private val boards: List<Board>, selectedBoards: Set<Board> = emptySet()) : AbstractTableModel() {
-    val selectedBoards: MutableSet<Board> = HashSet(selectedBoards)
+class BoardsTableModel(private val boards: List<Board>, private val previouslySelectedBoards: Set<Board> = emptySet()) : AbstractTableModel() {
+    val selectedBoards: MutableSet<Board> = HashSet(previouslySelectedBoards)
 
     enum class Column(val columnName: String,
                       val rowObjectFactory: (Board) -> Any
@@ -62,7 +62,7 @@ class BoardsTableModel(private val boards: List<Board>, selectedBoards: Set<Boar
         }
     }
 
-    fun clearSelectedBoards() {
-        selectedBoards.clear()
+    fun clearNewlySelectedBoards() {
+        selectedBoards.retainAll(previouslySelectedBoards)
     }
 }

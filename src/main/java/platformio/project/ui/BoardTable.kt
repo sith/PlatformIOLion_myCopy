@@ -29,7 +29,7 @@ class BoardTable(boards: List<Board>, selectedBoards: Set<Board>) {
         table.autoResizeMode = JTable.AUTO_RESIZE_OFF
     }
 
-    fun clearSelectedBoards() = boardTableModel.clearSelectedBoards()
+    fun clearNewlySelectedBoards() = boardTableModel.clearNewlySelectedBoards()
 
     fun getSelectedBoards(): Collection<Board> = boardTableModel.selectedBoards
 

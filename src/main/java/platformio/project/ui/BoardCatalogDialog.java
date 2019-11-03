@@ -63,7 +63,7 @@ public class BoardCatalogDialog extends JDialog {
     }
 
     private void onCancel() {
-        boardTable.clearSelectedBoards();
+        boardTable.clearNewlySelectedBoards();
         dispose();
     }
 
