@@ -6,7 +6,9 @@ import org.assertj.swing.fixture.DialogFixture
 import org.assertj.swing.fixture.FrameFixture
 import org.assertj.swing.fixture.JTableFixture
 import org.assertj.swing.timing.Timeout
+import org.hamcrest.Matchers
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,8 +19,8 @@ import platformio.project.ui.BoardCatalogDialog.BOARD_CATALOG_DIALOG_NAME
 import platformio.project.ui.NewPIOProjectSettingsForm.SELECT_BOARD_BUTTON_NAME
 import platformio.services.Board
 import platformio.services.PlatformIOService
-import platformio.services.FrameworkService
 import javax.swing.JFrame
+import kotlin.test.fail
 
 @RunWith(MockitoJUnitRunner::class)
 class NewPIOProjectSettingsFormTest {
@@ -52,15 +54,35 @@ class NewPIOProjectSettingsFormTest {
     fun picksBoards() {
         showWindow()
 
-        selectBoards(boardA, boardC)
+        clickOnBoards(boardA, boardC)
 
         val selectedBoardTable = window.table(NewPIOProjectSettingsForm.SELECTED_BOARD_TABLE_NAME)
         selectedBoardTable.requireRowCount(2)
 
         verifyColumnNames(selectedBoardTable)
 
-        selectedBoardTable.boardExists(boardA, 0)
-        selectedBoardTable.boardExists(boardC, 1)
+        selectedBoardTable.boardExists(boardA)
+        selectedBoardTable.boardExists(boardC)
+
+        Assert.assertThat(form.boards, Matchers.containsInAnyOrder(boardA, boardC))
+    }
+
+
+    @Test
+    fun `picks boards, opens dialog again and picks no new boards`() {
+        showWindow()
+
+        clickOnBoards(boardA, boardC)
+
+        window.openSelectBoardDialog().button(BoardCatalogDialog.CANCEL_BUTTON_NAME).click()
+
+        val selectedBoardTable = window.table(NewPIOProjectSettingsForm.SELECTED_BOARD_TABLE_NAME)
+        selectedBoardTable.requireRowCount(2)
+
+        selectedBoardTable.boardExists(boardA)
+        selectedBoardTable.boardExists(boardC)
+
+        Assert.assertThat(form.boards, Matchers.containsInAnyOrder(boardA, boardC))
     }
 
 
@@ -68,26 +90,43 @@ class NewPIOProjectSettingsFormTest {
     fun pickOneBoardAndThanAddAnotherOne() {
         showWindow()
 
-        selectBoards(boardA)
-        selectBoards(boardC) { it.table(BoardsTableModel.BOARD_TABLE_NAME).hasBoard(0, boardA, true) }
+        clickOnBoards(boardA)
+        clickOnBoards(boardC) { it.table(BoardsTableModel.BOARD_TABLE_NAME).hasBoard(0, boardA, true) }
 
         val selectedBoardTable = window.table(NewPIOProjectSettingsForm.SELECTED_BOARD_TABLE_NAME)
         selectedBoardTable.requireRowCount(2)
 
         verifyColumnNames(selectedBoardTable)
 
-        selectedBoardTable.boardExists(boardA, 0)
-        selectedBoardTable.boardExists(boardC, 1)
+        selectedBoardTable.boardExists(boardA)
+        selectedBoardTable.boardExists(boardC)
     }
 
+    @Test
+    fun pickOneBoardAndThanUnPickIt() {
+        showWindow()
 
-    private fun selectBoards(vararg boards: Board, extraAssertions: (DialogFixture) -> Any = {}) {
-        window.button(SELECT_BOARD_BUTTON_NAME).click()
-        val dialog = window.dialog(BOARD_CATALOG_DIALOG_NAME, Timeout.timeout(500))
+        clickOnBoards(boardA)
+        clickOnBoards(boardA, boardC)
+
+        val selectedBoardTable = window.table(NewPIOProjectSettingsForm.SELECTED_BOARD_TABLE_NAME)
+        selectedBoardTable.requireRowCount(1)
+
+        selectedBoardTable.boardDoesNotExist(boardA)
+        selectedBoardTable.boardExists(boardC)
+    }
+
+    private fun clickOnBoards(vararg boards: Board, extraAssertions: (DialogFixture) -> Any = {}) {
+        val dialog = window.openSelectBoardDialog()
         dialog.requireModal()
         extraAssertions.invoke(dialog)
-        boards.forEach { dialog.selectBoards(it) }
+        boards.forEach { dialog.clickOnBoards(it) }
         dialog.button(BoardCatalogDialog.OK_BUTTON_NAME).click()
+    }
+
+    private fun FrameFixture.openSelectBoardDialog(): DialogFixture {
+        button(SELECT_BOARD_BUTTON_NAME).click()
+        return dialog(BOARD_CATALOG_DIALOG_NAME, Timeout.timeout(500))
     }
 
     private fun verifyColumnNames(selectedBoardTable: JTableFixture) {
@@ -97,13 +136,28 @@ class NewPIOProjectSettingsFormTest {
         selectedBoardTable.requireColumnNamed(NewPIOProjectSettingsForm.FRAMEWORK_COLUMN)
     }
 
-    private fun JTableFixture.boardExists(board: Board, row: Int) {
-        cell(TableCell.row(row).column(0)).requireValue(board.name)
-        cell(TableCell.row(row).column(1)).requireValue(board.platform)
-        cell(TableCell.row(row).column(2)).requireValue(board.framework)
+    private fun JTableFixture.boardExists(board: Board) {
+        for (rowIndex in 0 until rowCount()) {
+            if (cell(TableCell.row(rowIndex).column(0)).value() == board.name &&
+                    (cell(TableCell.row(rowIndex).column(1)).value() == board.platform) &&
+                    cell(TableCell.row(rowIndex).column(2)).value() == board.framework) {
+                return
+            }
+        }
+        fail("Cannot find row for board $board")
     }
 
-    private fun DialogFixture.selectBoards(board: Board) {
+    private fun JTableFixture.boardDoesNotExist(board: Board) {
+        for (rowIndex in 0 until rowCount()) {
+            if (cell(TableCell.row(rowIndex).column(0)).value() == board.name &&
+                    (cell(TableCell.row(rowIndex).column(1)).value() == board.platform) &&
+                    cell(TableCell.row(rowIndex).column(2)).value() == board.framework) {
+                fail("Board exists $board")
+            }
+        }
+    }
+
+    private fun DialogFixture.clickOnBoards(board: Board) {
         table(BoardsTableModel.BOARD_TABLE_NAME).cell(TableCell.row(boards.indexOf(board)).column(0)).click()
     }
 }

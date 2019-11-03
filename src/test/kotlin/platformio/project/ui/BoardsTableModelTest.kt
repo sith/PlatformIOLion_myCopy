@@ -14,7 +14,7 @@ class BoardsTableModelTest {
 
     @Test
     fun columnNames() {
-        assertThat(boardsTableModel.columnCount, `is`(9))
+        assertThat(boardsTableModel.columnCount, `is`(8))
         assertThat(boardsTableModel.getColumnName(0), `is`(BoardsTableModel.Column.CHECK_BOX_COLUMN.columnName))
         assertThat(boardsTableModel.getColumnName(1), `is`(BoardsTableModel.Column.NAME_COLUMN.columnName))
         assertThat(boardsTableModel.getColumnName(2), `is`(BoardsTableModel.Column.PLATFORM_COLUMN.columnName))

@@ -3,6 +3,8 @@ package platformio.services
 
 interface PlatformIOService {
     fun loadAllBoards(): List<Board>
+    fun addBoardConfiguration(board: Board)
+    fun initCLionProject()
 }
 
 data class Board(

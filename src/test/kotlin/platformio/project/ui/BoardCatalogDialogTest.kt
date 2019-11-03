@@ -31,7 +31,7 @@ class BoardCatalogDialogTest {
 
         val table = window.table(BoardsTableModel.BOARD_TABLE_NAME)
 
-        table.requireColumnCount(9)
+        table.requireColumnCount(8)
         table.requireColumnNamed(BoardsTableModel.Column.CHECK_BOX_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.NAME_COLUMN.columnName)
         table.requireColumnNamed(BoardsTableModel.Column.PLATFORM_COLUMN.columnName)

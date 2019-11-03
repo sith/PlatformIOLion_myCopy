@@ -1,13 +1,13 @@
 package platformio.project.ui;
 
 import com.intellij.ui.components.JBScrollPane;
-import kotlinx.coroutines.*;
 import org.jetbrains.annotations.NotNull;
 import platformio.services.Board;
 import platformio.services.PlatformIOService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,14 +46,14 @@ public class NewPIOProjectSettingsForm {
     }
 
     private void clearTable() {
-        for (int i = 0; i < selectedBoardsTableModel.getRowCount(); i++) {
+        int rows = selectedBoardsTableModel.getRowCount();
+        for (int i = rows - 1; i >= 0; i--) {
             selectedBoardsTableModel.removeRow(i);
-
         }
     }
 
-    public Board getBoard() {
-        throw new UnsupportedOperationException();
+    public Collection<Board> getBoards() {
+        return selectedBoards;
     }
 
     @NotNull
